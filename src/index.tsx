@@ -22,19 +22,18 @@ const BiometricAuthModule = NativeModules.BiometricAuthModule
 
 export const checkAvailability = async (): Promise<BiometricType> => {
   try {
-    const result = await BiometricAuthModule.isBiometricAvailable()
-    return result as BiometricType
+    const result = await BiometricAuthModule.isBiometricAvailable();
+    return result as BiometricType;
   } catch (error) {
-    return BiometricTypeEnums.None
+    return BiometricTypeEnums.None;
   }
-}
+};
 
 export const authenticate = async (): Promise<boolean> => {
   try {
-    const result = await BiometricAuthModule.authenticate()
-    return result as boolean
+    const result = await BiometricAuthModule.authenticate();
+    return result as boolean;
   } catch (error) {
-    return false
+    return false;
   }
-}
-
+};
