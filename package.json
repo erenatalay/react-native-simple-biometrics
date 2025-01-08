@@ -9,7 +9,7 @@
   "source": "src/index",
   "files": [
     "src",
-    "lib",
+    "index.d.ts",
     "android",
     "ios",
     "cpp",

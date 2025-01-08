@@ -28,11 +28,11 @@ export const checkAvailability = async (): Promise<BiometricType> => {
   }
 }
 
-export const authenticate = async (): Promise<BiometricType> => {
+export const authenticate = async (): Promise<boolean> => {
   try {
     const result = await BiometricAuthModule.authenticate()
-    return result as BiometricType
+    return result as boolean
   } catch (error) {
-    return BiometricTypeEnums.None
+    return false
   }
 }

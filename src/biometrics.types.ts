@@ -4,10 +4,9 @@ export enum BiometricTypeEnums {
     Passcode = 'Passcode',
     None = 'None'
   }
-  
   export type BiometricType =
     | BiometricTypeEnums.FaceID
     | BiometricTypeEnums.TouchID
     | BiometricTypeEnums.Passcode
-    | BiometricTypeEnums.None
-  
+    | BiometricTypeEnums.None;
+

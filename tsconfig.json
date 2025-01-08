@@ -2,7 +2,7 @@
   "compilerOptions": {
     "rootDir": ".",
     "paths": {
-      "react-native-biometric-next": ["./types/index.d.ts"]
+      "react-native-simple-biometrics": ["./index.d.ts"]
     },
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
