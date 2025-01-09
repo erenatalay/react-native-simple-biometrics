@@ -1,4 +1,4 @@
-# react-native-biometric-next
+# react-native-simple-biometrics
 
 ## Introduction
 
@@ -36,17 +36,17 @@ The integration of biometric authentication, such as fingerprint and Face ID, ad
 
 ### Usage
 
-To use the provided code snippet with the `react-native-biometric-next` library, you'll need to follow these steps:
+To use the provided code snippet with the `react-native-simple-biometrics` library, you'll need to follow these steps:
 
 1. Install the library:
    ```
-   npm i react-native-biometric-next 
+   npm i react-native-simple-biometrics
    ```
    
 
 2. Import the necessary functions and modules in your component:
    ```javascript
-   import { enableBioMetric, checkBiometricSupport, checkNewFingerPrintAdded } from 'react-native-biometric-next';
+   import { enableBioMetric, checkBiometricSupport, checkNewFingerPrintAdded } from 'react-native-simple-biometrics';
    ```
 
 3. Implement the authentication logic in your component, preferably within a `useEffect` hook:
