@@ -1,11 +1,9 @@
-import { BiometricTypeEnums } from './src/biometrics.types';
+import type { BiometricType } from './src';
 
 declare module 'react-native-simple-biometrics' {
-  export type BiometricType = keyof typeof BiometricTypeEnums;
-
-  export function checkAvailability(): Promise<BiometricType | null>;
+  export function checkAvailability(): Promise<BiometricType>;
 
   export function authenticate(): Promise<boolean>;
 
-  export const BiometricEnums: BiometricTypeEnums;
+  export * from './src/biometrics.types';
 }
