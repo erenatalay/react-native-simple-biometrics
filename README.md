@@ -1,152 +1,160 @@
 # react-native-simple-biometrics
 
-## Introduction
+## Overview
 
-The integration of biometric authentication, such as fingerprint and Face ID, adds a layer of security and convenience to mobile applications. This package streamlines the implementation process across iOS and Android platforms, ensuring a consistent user experience. By following the provided instructions, developers can easily leverage biometric authentication to enhance the security and usability of their applications. With tailored permissions and platform-specific logic, this solution caters to the diverse needs of modern mobile development.
-
-## Permission
-
-
-#### For iOS, please ensure that you add the following permission to your info.plist file:
-
-```
-<key>NSFaceIDUsageDescription</key>
-<string>We use Face ID to secure your account.</string>
-
-```
-
-#### For Android, in your AndroidManifest.xml file, include the following permissions:
-
-#### For API 28 and above:
-
-```
-<uses-permission android:name="android.permission.USE_BIOMETRIC" />
-
-```
-
-#### For versions before API 28:
-
-```
-<uses-permission android:name="android.permission.USE_FINGERPRINT" />
-
-```
-
-
-#### These configurations ensure proper permissions for using biometric authentication on both iOS and Android platforms.
-
-### Usage
-
-To use the provided code snippet with the `react-native-simple-biometrics` library, you'll need to follow these steps:
-
-1. Install the library:
-   ```
-   npm i react-native-simple-biometrics
-   ```
-   
-
-2. Import the necessary functions and modules in your component:
-   ```javascript
-   import { enableBioMetric, checkBiometricSupport, checkNewFingerPrintAdded } from 'react-native-simple-biometrics';
-   ```
-
-3. Implement the authentication logic in your component, preferably within a `useEffect` hook:
-   ```javascript
-   useEffect(() => {
-       checkNewFingerPrintAdded((res) => {
-           if (res === "NEW_FINGERPRINT_ADDED") {
-               Alert.alert("Alert", res);
-           }
-       });
-       
-       if (Platform.OS === "ios") {
-           enableBioMetric("Use passcode", "Enter phone screen lock pattern, PIN, password or fingerprint", (res) => {
-               switch (res) {
-                   case 1:
-                       Alert.alert("Alert", "Biometric authentication not available on the device");
-                       break;
-                   case 2:
-                       Alert.alert("Alert", "Biometric authentication is locked due to too many failed attempts");
-                       break;
-                   case 3:
-                       Alert.alert("Alert", "Biometric authentication is not enrolled");
-                       break;
-                   case 4:
-                       Alert.alert("Alert", "BIOMETRIC_STATUS_UNKNOWN");
-                       break;
-                   case 5:
-                       Alert.alert("Success", "Verified successfully");
-                       break;
-                   default:
-                       Alert.alert("Error", `${res}`);
-               }
-           });
-           return;
-       }
-       
-       checkBiometricSupport((res) => {
-           if (res === "SUCCESS") {
-               enableBioMetric("Biometric", "Enter phone screen lock pattern, PIN, password or fingerprint", (res) => {
-                   Alert.alert("Status", `${res}`);
-               });
-           } else {
-               Alert.alert("Alert", res);
-           }
-       });
-   }, []);
-   ```
-
-4. Ensure your `info.plist` for iOS and `AndroidManifest.xml` for Android are properly configured with the required permissions as mentioned earlier.
-
-5. Test your application to verify the functionality of biometric authentication on both iOS and Android devices.
-
-Remember to handle any errors or edge cases specific to your application's requirements.
-
-### Notes
-
-Certainly! Here's the combined explanation with all the points included:
-
-1. **Usage of `checkNewFingerPrintAdded` Function**:
-   - The `checkNewFingerPrintAdded` function is utilized to verify whether new biometric data has been added at the device level.
-   - On Android, when new biometric data is detected, it returns a response string `"NEW_FINGERPRINT_ADDED"`.
-   - Conversely, on iOS, it provides a different token or response to indicate the addition of new biometric data.
-
-2. **Platform Check (iOS)**:
-   - The code first checks if the platform is iOS using `Platform.OS === "ios"`.
-   - If the platform is iOS, it proceeds to enable biometric authentication using the `enableBioMetric` function.
-   - It provides a message to the user requesting them to use their phone's screen lock pattern, PIN, password, or fingerprint for authentication.
-
-3. **Handling Response (iOS)**:
-   - Upon receiving a response from the `enableBioMetric` function, it uses a switch statement to handle different cases.
-   - Case 1: Indicates that biometric authentication is not available on the device.
-   - Case 2: Indicates that biometric authentication is locked due to too many failed attempts.
-   - Case 3: Indicates that biometric authentication is not enrolled (i.e., not set up).
-   - Case 4: Indicates an unknown biometric status.
-   - Case 5: Indicates successful verification.
-   - Default case: Shows an error message with the received response.
-
-4. **Return Statement (iOS)**:
-   - After handling the iOS-specific biometric authentication, the `return;` statement ensures that the function exits early if the platform is iOS, as there's no need to proceed with the Android-specific logic.
-
-5. **Biometric Support Check (Android)**:
-   - If the platform is not iOS (presumed to be Android at this point), it checks for biometric support using the `checkBiometricSupport` function.
-   - If biometric support is confirmed (`res === "SUCCESS"`), it proceeds to enable biometric authentication similarly to iOS.
-
-6. **Handling Response (Android)**:
-   - Upon receiving a response from the `enableBioMetric` function on Android, it shows the status of biometric verification in an alert dialog.
-
-7. **Error Handling (Android)**:
-   - If biometric support is not confirmed on Android, it shows an alert with the received response.
-
-This combined explanation covers the usage of the `checkNewFingerPrintAdded` function and the implementation of biometric authentication for both iOS and Android platforms, including handling different scenarios and responses accordingly.
-
-## Contributing
-
-See the [contributing guide](CONTRIBUTING.md) to learn how to contribute to the repository and the development workflow.
-
-## License
-
-MIT
+Biometric authentication, such as Face ID or fingerprint scanning, provides secure and user-friendly access to mobile applications. `react-native-simple-biometrics` is designed to simplify the integration of biometric authentication across both iOS and Android platforms. With this package, developers can enhance the user experience while ensuring robust security.
 
 ---
 
-Made with [create-react-native-library](https://github.com/callstack/react-native-builder-bob)
+## Permissions
+
+### iOS Permissions
+
+Add the following key to your `info.plist` file to describe the use of Face ID or Touch ID:
+
+```xml
+<key>NSFaceIDUsageDescription</key>
+<string>This app uses Face ID for secure authentication.</string>
+```
+
+### Android Permissions
+
+Update your `AndroidManifest.xml` file with the appropriate permissions based on the API level:
+
+#### For API Level 28 and above:
+
+```xml
+<uses-permission android:name="android.permission.USE_BIOMETRIC" />
+```
+
+#### For API Levels below 28:
+
+```xml
+<uses-permission android:name="android.permission.USE_FINGERPRINT" />
+```
+
+These configurations are essential for enabling biometric functionality on the respective platforms.
+
+---
+
+## Installation
+
+Install the library using npm or yarn:
+
+```bash
+npm install react-native-simple-biometrics
+# or
+yarn add react-native-simple-biometrics
+```
+
+---
+
+## Usage Guide
+
+### Example Code
+
+Here’s a basic implementation of the `react-native-simple-biometrics` library:
+
+```javascript
+import React, { useState, useEffect } from 'react';
+import { checkAvailability, authenticate, BiometricType } from 'react-native-simple-biometrics';
+
+const BiometricAuthentication = () => {
+  const [isSupported, setIsSupported] = useState(false);
+  const [biometricType, setBiometricType] = useState(null);
+
+  const initializeBiometrics = async () => {
+    try {
+      const availableBiometric = await checkAvailability();
+      if (availableBiometric !== BiometricType.None) {
+        setBiometricType(availableBiometric);
+        setIsSupported(true);
+      }
+    } catch (error) {
+      console.error('Error initializing biometrics:', error);
+    }
+  };
+
+  const authenticateUser = async () => {
+    try {
+      const result = await authenticate();
+      console.log('Authentication result:', result);
+    } catch (error) {
+      console.error('Authentication failed:', error);
+    }
+  };
+
+  useEffect(() => {
+    initializeBiometrics();
+  }, []);
+
+  return (
+    <div>
+      <h1>Biometric Authentication</h1>
+      {isSupported ? (
+        <button onClick={authenticateUser}>Authenticate</button>
+      ) : (
+        <p>Biometric authentication is not supported on this device.</p>
+      )}
+    </div>
+  );
+};
+
+export default BiometricAuthentication;
+```
+
+### Steps to Implement
+
+1. Import the required functions (`checkAvailability`, `authenticate`, and `BiometricType`) from the library.
+2. Use `checkAvailability()` to determine if biometrics are supported on the device and what type is available.
+3. Call `authenticate()` to prompt the user for biometric authentication.
+4. Display results or handle errors appropriately based on your app’s requirements.
+
+---
+
+## Platform-Specific Notes
+
+### iOS Notes
+- Ensure a meaningful description is added in `info.plist` to comply with App Store guidelines.
+- Biometric authentication might fail due to:
+  - Hardware limitations.
+  - Biometrics being locked after multiple failed attempts.
+  - Lack of enrolled biometric data.
+
+### Android Notes
+- API 28 and above utilize the `BiometricPrompt` class for authentication.
+- Devices running older versions rely on fingerprint-specific permissions (`USE_FINGERPRINT`).
+
+---
+
+## Error Handling
+
+### Common Issues
+- **Unsupported Devices**: Verify that the device has the necessary hardware and that biometrics are enabled.
+- **Permission Errors**: Double-check the permissions in your app’s configuration files.
+- **Locked Biometrics**: Handle scenarios where biometrics are temporarily locked.
+
+### Recommended Practices
+- Use meaningful error messages to guide users through resolving issues (e.g., enrolling biometrics, unlocking features).
+- Provide alternative authentication options for unsupported devices.
+
+---
+
+## Testing Recommendations
+
+To ensure robust functionality:
+- Test on a variety of devices with different biometric capabilities.
+- Simulate error cases, such as failed authentication attempts or unsupported hardware.
+
+---
+
+## License
+
+This package is distributed under the MIT License. See the LICENSE file for details.
+
+---
+
+## Contributing
+
+We welcome contributions from the community! Submit issues or pull requests on the GitHub repository to help improve the package.
+

@@ -3,7 +3,7 @@ import LocalAuthentication
 import React
 
 @objc(BiometricAuthModule)
-class BiometricAuthModule: NSObject {
+class BiometricAuthModule: NSObject, BiometricAuthSpec {
 
     @objc
     func isBiometricAvailable(_ resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock) {
