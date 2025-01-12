@@ -56,56 +56,67 @@ yarn add react-native-simple-biometrics
 Here’s a basic implementation of the `react-native-simple-biometrics` library:
 
 ```javascript
-import React, { useState, useEffect } from 'react';
-import { checkAvailability, authenticate, BiometricType } from 'react-native-simple-biometrics';
+import React, { useEffect, useState } from "react";
+import { Button, SafeAreaView, Text } from "react-native";
+import {
+  checkAvailability,
+  authenticate,
+  BiometricEnums,
+} from "react-native-simple-biometrics";
 
-const BiometricAuthentication = () => {
+const BiometricSimple = () => {
   const [isSupported, setIsSupported] = useState(false);
-  const [biometricType, setBiometricType] = useState(null);
-
-  const initializeBiometrics = async () => {
-    try {
-      const availableBiometric = await checkAvailability();
-      if (availableBiometric !== BiometricType.None) {
-        setBiometricType(availableBiometric);
-        setIsSupported(true);
-      }
-    } catch (error) {
-      console.error('Error initializing biometrics:', error);
-    }
-  };
-
-  const authenticateUser = async () => {
-    try {
-      const result = await authenticate();
-      console.log('Authentication result:', result);
-    } catch (error) {
-      console.error('Authentication failed:', error);
-    }
-  };
+  const [isAuth, setAuth] = useState(false);
 
   useEffect(() => {
-    initializeBiometrics();
+    const checkBiometrics = async () => {
+      try {
+        const available = await checkAvailability();
+        setIsSupported(available !== BiometricEnums.None);
+      } catch (error) {
+        setIsSupported(false);
+      }
+    };
+
+    checkBiometrics();
   }, []);
 
+  const handleAuth = async () => {
+    try {
+      const result = await authenticate();
+      if (result) {
+        setAuth(true);
+      }
+    } catch {
+      setAuth(false);
+    }
+  };
+
   return (
-    <div>
-      <h1>Biometric Authentication</h1>
-      {isSupported ? (
-        <button onClick={authenticateUser}>Authenticate</button>
-      ) : (
-        <p>Biometric authentication is not supported on this device.</p>
+    <SafeAreaView style={{ padding: 20 }}>
+      <Text style={{ fontSize: 20, marginBottom: 20 }}>
+        Biometric Authentication
+      </Text>
+
+      {isAuth && (
+        <Text style={{ fontSize: 20, fontWeight: "500" }}>Secret Text</Text>
       )}
-    </div>
+
+      {isSupported && !isAuth ? (
+        <Button title="Authenticate" onPress={handleAuth} />
+      ) : (
+        <Text>Biometric authentication is not supported on this device</Text>
+      )}
+    </SafeAreaView>
   );
 };
 
-export default BiometricAuthentication;
+export default BiometricSimple;
 ```
 
 ### Steps to Implement
 
-1. Import the required functions (`checkAvailability`, `authenticate`, and `BiometricType`) from the library.
+1. Import the required functions (`checkAvailability`, `authenticate`, and `BiometricEnums`) from the library.
 2. Use `checkAvailability()` to determine if biometrics are supported on the device and what type is available.
 3. Call `authenticate()` to prompt the user for biometric authentication.
 4. Display results or handle errors appropriately based on your app’s requirements.

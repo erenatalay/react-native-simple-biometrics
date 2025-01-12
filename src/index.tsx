@@ -37,3 +37,10 @@ export const authenticate = async (): Promise<boolean> => {
     return false;
   }
 };
+
+export const BiometricEnums = {
+  FaceID: 'FaceID',
+  TouchID: 'TouchID',
+  Passcode: 'Passcode',
+  None: 'None',
+};
