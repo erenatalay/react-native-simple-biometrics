@@ -1,0 +1,27 @@
+{
+  "name": "sound-waves",
+  "version": "1.0.0",
+  "main": "index.ts",
+  "scripts": {
+    "start": "expo start",
+    "android": "expo run:android",
+    "ios": "expo run:ios",
+    "web": "expo start --web",
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "expo": "~52.0.20",
+    "expo-status-bar": "~2.0.0",
+    "react": "18.3.1",
+    "react-native-simple-biometrics": "file:../react-native-simple-biometrics",
+    "react-native": "0.76.5"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.25.2",
+    "@types/react": "~18.3.12",
+    "eslint": "^8.57.0",
+    "eslint-config-expo": "~8.0.1",
+    "typescript": "^5.3.3"
+  },
+  "private": true
+}
